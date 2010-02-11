@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: Magazine Edtion Control
-Plugin URI: http://www.microformatica.com
-Description: Magazine Edtion Control
+Plugin Name: Magazine Edition Control
+Plugin URI: http://www.microformatica.com/internet-services/wordpress-addin-magazine-edition-control
+Description: Magazine Edition Control
 Author: Micro Formatica
-Version: 0.2
+Version: 1
 Author URI: http://www.microformatica.com
 */
 

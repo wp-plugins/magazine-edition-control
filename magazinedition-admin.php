@@ -60,18 +60,18 @@ if (isset($_GET['year'])) {
 <!--[if IE]><script type="text/javascript" src="scripts/jquery.bgiframe.js"></script><![endif]-->
 <!-- jquery.datePicker.js -->
 
-<script type="text/javascript" src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazineditions/jquery-ui-1.7.2.custom.min.js"></script>
+<script type="text/javascript" src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/jquery-ui-1.7.2.custom.min.js"></script>
 
-<script type="text/javascript" src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazineditions/jquery.datePicker.js"></script>
+<script type="text/javascript" src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/jquery.datePicker.js"></script>
 <script src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazineditions/date.js" type="text/javascript"></script>
 
-<link rel="stylesheet" type="text/css" href="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazineditions/date.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazineditions/jquery-ui-1.7.2.custom.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/date.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/jquery-ui-1.7.2.custom.css" />
 
-<div style="background-image: url('<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazineditions/sep2.png'); margin-left: 10px;">
+<div style="background-image: url('<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/sep2.png'); margin-left: 10px;">
 
 <div style="margin-left: auto; margin-right: auto; position: absolute; width: 356px; height: 179px;"><img style="margin-left: auto; margin-right: auto; " src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazinedition/cat.png"></div>
-<div style="background-image: url('<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazineditions/sep3.png'); height: 127px; width: 100%;">
+<div style="background-image: url('<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/sep3.png'); height: 127px; width: 100%;">
 </div>
 
 <h2 style="margin-left: 500px; margin-top: -5px; color: white;">Magazine Edition Control</h2>

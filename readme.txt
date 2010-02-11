@@ -10,13 +10,31 @@ Control the editions of your magazine. Easy and with no expesive software.
 
 == Description ==
 
-Control the editions of your magazine. Easy and with no expesive software.
+Magazine edition control is a Wordpress addin that controls your magazine editions.
+
+You can add:
+
+1. The title of the edition you published
+2. A description of the edition
+3. Links to any content on your Wordpress installation
+
+Over time you have an extended index of all your published magazine editions on your website with no requirement of expensive software.
 
 == Installation ==
 
-Use the "echo magazineditions_picturebook()" API in your templates to display a list of images. It will create a list of images set by your "URL of edition front" settings which points to the editions page.
+**The private part of the installation.**
+
+1. Upload the magazine-edition-control folder to the `/wp-content/plugins/` directory. Be sure its named magazine-edition-control
+2. Activate the plugin through the 'Plugins' menu in WordPress.
+3. Place `<?php echo magazineditions_picturebook() ?>` in your template.
+
+Use the magazineditions_picturebook() API in your templates to display a list of images. It will create a list of images set by your "URL of edition front" settings which points to the editions page.
+
+**The public part of the installation.**
 
 The public part of the installation requires a bit of hacking, so insert the following code on a custom template page with the slug "editions":
+
+<?php
 
 // ****************************
 
@@ -47,6 +65,8 @@ foreach($lastposts as $post) {
 }
 
 echo resetencap(base64_decode($datum->uitgave_desc));
+
+?>
 
 // ****************************
 
