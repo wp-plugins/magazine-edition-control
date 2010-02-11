@@ -1,16 +1,16 @@
 === Magazine Edition Control ===
 Contributors: erwinwolff
 Donate link: http://www.microformatica.com/internet-services/buy-support
-Tags: magazine, control
+Tags: magazine, control, version control, content management, edition, index, management
 Requires at least: 2.9.1
 Tested up to: 2.9.1
 Stable tag: 1
 
-Control the editions of your magazine. Easy and with no expesive software.
+Control the editions of your magazine or just group up the content of your blog. Easy and with no expensive software.
 
 == Description ==
 
-Magazine edition control is a Wordpress addin that controls your magazine editions.
+Magazine edition control is a Wordpress addin that controls your magazine editions or just simply groups up your content.
 
 You can add:
 
@@ -66,9 +66,11 @@ foreach($lastposts as $post) {
 
 echo resetencap(base64_decode($datum->uitgave_desc));
 
-?>`
-
+?>
 // ****************************
+
+`
+
 
 
 
@@ -80,7 +82,7 @@ Of course, just follow the download link and provide us your info, and we will g
 
 = Where can I see a working example of this?  =
 
-Here: http://www.catholica.nl/ (live website)
+Here: http://www.catholica.nl/jaargangen (live website)
 
 == Screenshots ==
 
