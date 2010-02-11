@@ -34,7 +34,7 @@ Use the magazineditions_picturebook() API in your templates to display a list of
 
 The public part of the installation requires a bit of hacking, so insert the following code on a custom template page with the slug "editions":
 
-<?php
+ `<?php
 
 // ****************************
 
@@ -66,7 +66,7 @@ foreach($lastposts as $post) {
 
 echo resetencap(base64_decode($datum->uitgave_desc));
 
-?>
+?>`
 
 // ****************************
 
