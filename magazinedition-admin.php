@@ -63,7 +63,7 @@ if (isset($_GET['year'])) {
 <script type="text/javascript" src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/jquery-ui-1.7.2.custom.min.js"></script>
 
 <script type="text/javascript" src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/jquery.datePicker.js"></script>
-<script src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazineditions/date.js" type="text/javascript"></script>
+<script src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/date.js" type="text/javascript"></script>
 
 <link rel="stylesheet" type="text/css" href="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/date.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/jquery-ui-1.7.2.custom.css" />
@@ -77,7 +77,7 @@ if (isset($_GET['year'])) {
 <h2 style="margin-left: 500px; margin-top: -5px; color: white;">Magazine Edition Control</h2>
 
 </div>
-<a href="http://www.microformatica.com/internet-services/buy-support" style="z-index: 400; position: absolute; margin-top: -170px; margin-left: 10px;"><img src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazineditions/logo.gif.png"></a>
+<a href="http://www.microformatica.com/internet-services/buy-support" style="z-index: 400; position: absolute; margin-top: -170px; margin-left: 10px;"><img src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins//magazine-edition-control/logo.gif.png"></a>
 
 
 <br />
