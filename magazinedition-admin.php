@@ -63,7 +63,8 @@ if (isset($_GET['year'])) {
 <script type="text/javascript" src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/jquery-ui-1.7.2.custom.min.js"></script>
 
 <script type="text/javascript" src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/jquery.datePicker.js"></script>
-<script src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/date.js" type="text/javascript"></script>
+<script type="text/javascript" src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/date.js"></script>
+<script type="text/javascript" src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/jquery.tools.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/date.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/jquery-ui-1.7.2.custom.css" />
@@ -79,15 +80,18 @@ if (isset($_GET['year'])) {
 </div>
 <a href="http://www.microformatica.com/internet-services/buy-support" style="z-index: 400; position: absolute; margin-top: -170px; margin-left: 10px;"><img src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins//magazine-edition-control/logo.gif.png"></a>
 
-
 <br />
+<div id="tooltip">&nbsp;</div>
+
 <div style="margin-left: 10px; margin-top: -25px;">
 <h2>Create edition</h2>
+<div id="createedition">
 <form action="<?php echo $PHP_SELF; ?>" method="post">
-<label for="date1">Date</label><br />
-<input type="text" readonly="readonly" name="datecreate" id="date1" class="date-pick">
+<label for="date1" title="Choose date by clicking the calendar next to this field.">Date</label><br />
+<input type="text" readonly="readonly" name="datecreate" id="date1" class="date-pick" title="Use the button next to this field to pick a date.">
 <input type="submit" value="Create" name="createuitgave">
 </form>
+</div>
 
 <h2>Existing editions</h2>
 <?php
@@ -113,20 +117,20 @@ foreach($results as $result)
    echo "<input type=\"hidden\" name=\"uitgaveid\" value=\"" . $thisid . "\">";
    echo "<input type=\"hidden\" name=\"guid\" value=\"" . $result->cat_guid . "\">";
 
-   echo "<label>Title of edition:</label><br />";
+   echo "<label title=\"Please specify the title of this edition.\">Title of edition:</label><br />";
    echo "<input type=\"text\" name=\"title\" id=\"title" . $thisid . "\" value=\"" . $result->cat_name . "\"><br />";
    echo "<br />";
 
-   echo "<label>Date:</label><br />";
+   echo "<label title=\"Choose date by clicking the calendar next to this field.\">Date:</label><br />";
    echo "<input type=\"text\" readonly=\"readonly\" name=\"date\" id=\"date-" . $thisid . "\" value=\"" . $result->cat_date  . "\" class=\"date-pick\"><br />";
    echo "<br />";
 
    echo "<span style=\"position: absolute; margin-left: 230px; margin-top: -120px;\">";
-   echo "<label>Edition article ID's (commaseperated):</label><br />";
+   echo "<label title=\"This list must be seperated by comma's. Please avoid whitepaces.\">Edition article ID's:</label><br />";
    echo "<input type=\"text\" name=\"posts\" id=\"posts" . $thisid . "\" value=\"" . get_comma_posts($result->cat_guid) . "\" style=\"width: 300px;\"><br />";
    echo "<br />";
 
-   echo "<label>URL of edition front:</label><br />";
+   echo "<label title=\"Please specify the URL of the image.\">URL of edition front:</label><br />";
    echo "<input type=\"text\" name=\"front\" id=\"front" . $thisid . "\" value=\"" . $result->cat_front . "\"  style=\"width: 300px;\"><br />";
    echo "<br />";
 
@@ -134,7 +138,7 @@ foreach($results as $result)
 
    echo "<div id='editorcontainer'><textarea name=\"desc\" rows=\"5\" class=\"theEditor\" cols=\"40\">" . resetencap(base64_decode($result->uitgave_desc)) . "</textarea></div><br /><br />";
 
-   echo "<input type=\"submit\" name=\"uitgave\" value=\"Edit edition\"> <span style=\"float: right;\"><a href=\"" . $PHP_SELF . "?page=magazinedition&deleteme=" . $thisid . "\" style=\"align: right; color: red;\">Delete this edition</a></span>";
+   echo "<input type=\"submit\" name=\"uitgave\" value=\"Edit edition\"> <span style=\"float: right;\"><a href=\"" . $PHP_SELF . "?page=magazinedition&deleteme=" . $thisid . "\" style=\"align: right; color: red;\" title=\"Are you sure? You cannot undo this action.\">Delete this edition</a></span>";
    echo "</form>";
    echo "</div>";
 }
@@ -157,6 +161,11 @@ jQuery(document).ready(function(){
 		$(this).next().toggle('slow');
 		return false;
 	}).next().hide();
+
+        $("form a").tooltip({tip: '#tooltip', effect: 'bouncy'});
+        $("form label").tooltip({tip: '#tooltip', effect: 'bouncy'});
 });
+
+
 
 </script>
