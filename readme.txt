@@ -1,7 +1,7 @@
 === Magazine Edition Control ===
 Contributors: erwinwolff
 Donate link: http://www.microformatica.com/internet-services/buy-support
-Tags: magazine, control, version control, content management, edition, index, management
+Tags: magazine, control, version control, content management, edition, index, management, editor, weekly, daily, posts
 Requires at least: 2.9.1
 Tested up to: 2.9.1
 Stable tag: 1.1
