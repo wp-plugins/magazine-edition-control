@@ -206,7 +206,7 @@ echo "<option value=\"" . $result->cat_guid  . "\">" . $title . "</option><br />
 }
 }
 echo "</select><br /><br /><br />";
-echo "<a href=\"" . get_bloginfo('siteurl')  . "/wp-admin/admin.php?page=magazinedition\">Edit editions.</a><br />";
+echo "<a href=\"" . get_bloginfo('siteurl')  . "/wp-admin/admin.php?page=magazinedition\">Edit editions</a><br />";
 
 }
 
