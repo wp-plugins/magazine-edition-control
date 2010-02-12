@@ -4,7 +4,7 @@ Plugin Name: Magazine Edition Control
 Plugin URI: http://www.microformatica.com/internet-services/wordpress-addin-magazine-edition-control
 Description: Magazine Edition Control
 Author: Micro Formatica
-Version: 1
+Version: 1.1
 Author URI: http://www.microformatica.com
 */
 
@@ -25,7 +25,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 add_action('activated_plugin', 'magazinedition_install');
+
 add_action('admin_menu', 'magazinedition_admin_actions');
 
 
@@ -59,7 +61,9 @@ function magazinedition_menu()
  
 function magazinedition_admin_actions()
 {
+if ( current_user_can('manage_options') ) {
     add_menu_page("Magazine Edtion Control", "Magazine Edtion Control", 1,"magazinedition", "magazinedition_menu");
+}
 }
  
 function magazinedition_uuid () {

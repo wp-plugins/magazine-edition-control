@@ -1,10 +1,10 @@
 === Magazine Edition Control ===
 Contributors: erwinwolff
 Donate link: http://www.microformatica.com/internet-services/buy-support
-Tags: magazine, control, version control, content management, edition, index, management
+Tags: magazine, control, version control, content management, edition, index, management, editor, weekly, daily, posts
 Requires at least: 2.9.1
 Tested up to: 2.9.1
-Stable tag: 1
+Stable tag: 1.1
 
 Control the editions of your magazine or just group up the content of your blog. Easy and with no expensive software.
 
@@ -45,7 +45,7 @@ if (isset($_GET['uitid'])) {
        $uitgave = "";
 }
 
-$datum = $wpdb->get_row("SELECT * FROM " . $wpdb->prefix . "magazinedition_uitgaven WHERE cat_guid='" . $uitgave . "'");
+$datum = $wpdb->get_row("SELECT * FROM " . $wpdb->prefix . "magazinedition_uitgaven WHERE cat_guid='" . urlencode($uitgave) . "'");
 
 
 if ( current_user_can('manage_options') ) {
@@ -66,11 +66,14 @@ foreach($lastposts as $post) {
 
 echo resetencap(base64_decode($datum->uitgave_desc));
 
-?>
 // ****************************
 
-`
+?>
 
+`
+**The hacking part is too difficult for me, can I just pay you? **
+
+Of course, just follow the download link and provide us your info, and we will get it set up for you.
 
 
 
@@ -90,10 +93,16 @@ Here: http://www.catholica.nl/jaargangen (live website)
 
 == Changelog ==
 
+= 1.1 =
+* Some minor changes. 
+
 = 1.0 =
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.1 =
+* Some minor changes. 
 
 = 1.0 =
 * Initial release

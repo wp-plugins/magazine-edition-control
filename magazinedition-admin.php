@@ -27,7 +27,7 @@ if (isset($_POST['createuitgave'])) {
 	if(trim($_POST["datecreate"]) != "" ) {
 		$wpdb->query("INSERT INTO " . $wpdb->prefix . "magazinedition_uitgaven VALUES (NULL, '" . $_POST["datecreate"] . "', '', '', '" . magazinedition_uuid() . "', 0, '' )");	
         } else {		
-		echo "<div style=\"background-color: red; color: white; margin-left: 10px; font-weight: bold;\">Ongeldige invoer. Controleer het invoerveld.</div>";
+		echo "<div style=\"background-color: red; color: white; margin-left: 10px; font-weight: bold;\">Invalid entry. Please use the calendar next to the entry field.</div>";
 	}
 }
 
@@ -138,7 +138,10 @@ foreach($results as $result)
 
    echo "<div id='editorcontainer'><textarea name=\"desc\" rows=\"5\" class=\"theEditor\" cols=\"40\">" . resetencap(base64_decode($result->uitgave_desc)) . "</textarea></div><br /><br />";
 
+if ( current_user_can('manage_options') ) {
    echo "<input type=\"submit\" name=\"uitgave\" value=\"Edit edition\"> <span style=\"float: right;\"><a href=\"" . $PHP_SELF . "?page=magazinedition&deleteme=" . $thisid . "\" style=\"align: right; color: red;\" title=\"Are you sure? You cannot undo this action.\">Delete this edition</a></span>";
+}
+
    echo "</form>";
    echo "</div>";
 }
