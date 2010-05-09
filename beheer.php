@@ -4,10 +4,9 @@ Plugin Name: Magazine Edition Control
 Plugin URI: http://www.microformatica.com/internet-services/wordpress-addin-magazine-edition-control
 Description: Magazine Edition Control
 Author: Micro Formatica
-Version: 1.1
+Version: 1.2
 Author URI: http://www.microformatica.com
 */
-
 
 /*
 Copyright (C) 2010 Micro Formatica
@@ -27,14 +26,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+global $magazinedition_dir;
+$magazinedition_dir = WP_PLUGIN_DIR . '/magazin-edition-control';
+
+add_filter('query_vars','magazinedition_rewrite_query_vars');
+
+add_action('init', 'magazinedition_init');
 add_action('activated_plugin', 'magazinedition_install');
-
 add_action('admin_menu', 'magazinedition_admin_actions');
-
 add_action('admin_menu', 'magazinedition_custom');
-
 add_action('save_post', 'magazinedition_save_postdata');
 
+add_shortcode('magazine-edition-control', 'magazinedition_short');
 
 function magazinedition_install()
 {
@@ -56,6 +59,104 @@ function magazinedition_install()
     $wpdb->query("ALTER TABLE " . $wpdb->prefix  . "magazinedition_uitgaven ADD PRIMARY KEY ( cat_date ) ");
 }
 
+
+function magazinedition_init() {
+
+}
+
+function magazinedition_short ($atts) {
+global $wpdb;
+$finaloutput = "";
+ if ( current_user_can('manage_options') ) {
+ $finaloutput .= "<span style=\"float: right;\"><a href=\"" . get_bloginfo('siteurl') . "/wp-admin/options-general.php?page=magazinedition\">Edit Magazine Edition Control</a></span>";
+ }
+
+ // ****************************
+
+ $uitgave = "";
+ if ( isset($_GET['edition']) ) {
+        $uitgave = $_GET['edition'];
+
+ $datum = $wpdb->get_row("SELECT * FROM " . $wpdb->prefix . "magazinedition_uitgaven WHERE cat_guid='" . urlencode($uitgave) . "'", ARRAY_A);
+
+$finaloutput .= "<h3>" . $datum['cat_name']  .  "</h3>\n";
+
+ $lastposts = get_posts('numberposts=-1');
+ foreach($lastposts as $post) {
+
+         setup_postdata($post);
+
+         if (get_post_meta( $post->ID, 'magazineditionuitgave', true) == $uitgave) {
+           $finaloutput .= "<a href=\"" . get_permalink($post->ID) . "\"> " . $post->post_title . "</a><br /><br />\n";
+           $finaloutput .= substr(strip_tags($post->post_content), 0, 200) . "... <br /><br />\n";
+         }
+ }
+$finaloutput .= "<hr> <br /><br />\n";
+if ($datum['uitgave_desc'] != "") {
+ $finaloutput .= resetencap(base64_decode($datum['uitgave_desc']));
+}
+ // ****************************
+
+return $finaloutput;
+
+ } else {
+
+$year = 0;
+if (isset($_GET['edition_year'])) {
+       $year = $_GET['edition_year'];
+} else {
+       $year = date("Y");
+}
+
+$results = $wpdb->get_results("SELECT DISTINCT YEAR(cat_date) AS years FROM " . $wpdb->prefix . "magazinedition_uitgaven ORDER BY cat_date ASC");
+
+foreach($results as $result) {
+$finaloutput .=  "<a href=\"" . magazinedition_curPageURL_withoutqueryvars() . "?edition_year="  . $result->years . "\">" . $result->years . "</a> ";
+
+}
+
+$finaloutput .= "<hr /><br /><br />\n";
+$results = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . "magazinedition_uitgaven WHERE cat_date >= '" . $year ."-01-01' AND cat_date <= '" . $year ."-12-31' ORDER BY cat_date ASC");
+
+foreach($results as $result)
+{
+if ($result->cat_front != "") {
+
+$finaloutput .= "<div><a href=\"" .  magazinedition_curPageURL_withoutqueryvars() . "?edition=" . $result->cat_guid . "\"><img src=\"" . $result->cat_front . "\" style=\"width: 100px; height: 141px;\"></a><span style=\"float: left; margin-left: 10px; margin-top: -10px; position: absolute;\">". $result->cat_date . " " . $result->cat_name . "</span> " . "<br />\n";
+
+} else {
+
+$finaloutput .= "<div><a href=\"" .  magazinedition_curPageURL_withoutqueryvars() . "?edition=" . $result->cat_guid . "\"><span style=\"float: left; margin-left: 10px; margin-top: -10px; position: absolute;\">". $result->cat_date . " " . $result->cat_name . "</span> </a>" . "<br />\n";
+
+}
+
+$lastposts = get_posts('numberposts=-1');
+foreach($lastposts as $post) {
+        setup_postdata($post);
+
+        if (get_post_meta( $post->ID, 'magazineditionuitgave', true) == $result->cat_guid) {
+                $finaloutput .= "<a href=\"/archief/" . $post->ID . "\"> " . $post->post_title . "</a><br /><br />\n";
+              
+        }
+
+}
+$finaloutput .= "</div>";
+
+}
+
+return $finaloutput;
+ }
+
+}
+
+
+function magazinedition_rewrite_query_vars ($vars) {
+ $vars[] = 'edition';
+ $vars[] = 'edition_year';
+
+    return $vars;
+}
+
 function magazinedition_custom () {
 if ( current_user_can('manage_options') ) {
 add_meta_box("magazinedition_meta", __('Magazine Edtion Control', 'magazinedition'), "magazinedition_meta", "post", 'side', 'core');
@@ -68,12 +169,22 @@ function magazinedition_menu()
  include 'magazinedition-admin.php';
      
 }
+function magazinedition_controlmenu()
+{
+    global $wpdb;
+ include 'magazinedition-options-admin.php';
+     
+}
  
 function magazinedition_admin_actions()
 {
 if ( current_user_can('manage_options') ) {
     add_menu_page("Magazine Edtion Control", "Magazine Edtion Control", 1,"magazinedition", "magazinedition_menu");
+    add_submenu_page("magazinedition", "Magazine Edtion Control Options", "Options", 1, "magazinedition_controlmenu", "magazinedition_controlmenu");
+
 }
+register_setting( "magazinedition", "magazinedition-tooltip");
+
 }
  
 function magazinedition_uuid () {
@@ -107,7 +218,6 @@ $result = substr($result, 0, -1);
 return $result;
 }
 
-
 function set_comma_posts ( $guid, $postids ) { 
 
 $postarr = explode (",", $postids);
@@ -121,12 +231,10 @@ foreach($lastposts as $post) {
         }
 }
 
-
 foreach ($postarr as $value) {
  add_post_meta($value, 'magazineditionuitgave', $guid, true) or update_post_meta($value, 'magazineditionuitgave', $guid);
 }
 }
-
 
 function magazineditions_picturebook() {
 global $wpdb;		
@@ -143,7 +251,6 @@ $output .= "</ul>";
 
 echo $output;
 }
-
 
 function replacebr ( $string ) {
 $return = "";
@@ -229,4 +336,31 @@ add_post_meta($post_id, 'magazineditionuitgave', $_POST['magazinedition_save_gui
 
 return $post_id;
 
+}
+
+function magazinedition_curPageURL() {
+ $pageURL = 'http';
+ if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+ $pageURL .= "://";
+ if ($_SERVER["SERVER_PORT"] != "80") {
+  $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+ } else {
+  $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+ }
+ return $pageURL;
+}
+
+function magazinedition_curPageURL_withoutqueryvars() {
+ $pageURL = 'http';
+ if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+ $pageURL .= "://";
+ if ($_SERVER["SERVER_PORT"] != "80") {
+  $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+ } else {
+  $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+ }
+
+$arr_page =  explode ("?", $pageURL);
+
+return $arr_page[0];
 }
