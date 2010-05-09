@@ -60,9 +60,12 @@ if (isset($_GET['year'])) {
 <!--[if IE]><script type="text/javascript" src="scripts/jquery.bgiframe.js"></script><![endif]-->
 <!-- jquery.datePicker.js -->
 
+
+
 <script type="text/javascript" src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/jquery-ui-1.7.2.custom.min.js"></script>
 
 <script type="text/javascript" src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/jquery.datePicker.js"></script>
+
 <script type="text/javascript" src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/date.js"></script>
 <script type="text/javascript" src="<?php echo get_bloginfo('siteurl'); ?>/wp-content/plugins/magazine-edition-control/jquery.tools.min.js"></script>
 
@@ -136,7 +139,7 @@ foreach($results as $result)
 
    echo "</span>";
 
-   echo "<div id='editorcontainer'><textarea name=\"desc\" rows=\"5\" class=\"theEditor\" cols=\"40\">" . resetencap(base64_decode($result->uitgave_desc)) . "</textarea></div><br /><br />";
+   echo "<div id=\"editorcontainer\"><textarea name=\"desc\" rows=\"5\" class=\"theEditor\" id=\"content\"  cols=\"40\">" . resetencap(base64_decode($result->uitgave_desc)) . "</textarea></div><br /><br />";
 
 if ( current_user_can('manage_options') ) {
    echo "<input type=\"submit\" name=\"uitgave\" value=\"Edit edition\"> <span style=\"float: right;\"><a href=\"" . $PHP_SELF . "?page=magazinedition&deleteme=" . $thisid . "\" style=\"align: right; color: red;\" title=\"Are you sure? You cannot undo this action.\">Delete this edition</a></span>";
@@ -159,6 +162,7 @@ $(function()
 });
 $("#accordion").accordion();
 
+<?php if (get_option('magazinedition-tooltip') == "on") : ?>
 jQuery(document).ready(function(){
 	$('.accordion .head').click(function() {
 		$(this).next().toggle('slow');
@@ -168,7 +172,41 @@ jQuery(document).ready(function(){
         $("form a").tooltip({tip: '#tooltip', effect: 'bouncy'});
         $("form label").tooltip({tip: '#tooltip', effect: 'bouncy'});
 });
-
-
-
+<?php endif;?>
 </script>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+var lang = 'en';
+tinyMCEPreInit = {
+	base : "<?php echo get_bloginfo('siteurl'); ?>/wp-includes/js/tinymce",
+	suffix : "",
+	query : "ver=327-1235",
+	mceInit : {mode:"specific_textareas", editor_selector:"theEditor", width:"100%", theme:"advanced",skin:"wp_theme", theme_advanced_buttons1:"bold,italic,strikethrough,|,bullist,numlist,blockquote,|,justifyleft,justifycenter,justifyright,|,link,unlink,wp_more,|,spellchecker,fullscreen,wp_adv", theme_advanced_buttons2:"formatselect,underline,justifyfull,forecolor,|,pastetext,pasteword,removeformat,|,media,charmap,|,outdent,indent,|,undo,redo,wp_help", theme_advanced_buttons3:"", theme_advanced_buttons4:"", language:"en", spellchecker_languages:"+English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv", theme_advanced_toolbar_location:"top", theme_advanced_toolbar_align:"left", theme_advanced_statusbar_location:"bottom", theme_advanced_resizing:"1", theme_advanced_resize_horizontal:"", dialog_type:"modal", relative_urls:"", remove_script_host:"", convert_urls:"", apply_source_formatting:"", remove_linebreaks:"1", gecko_spellcheck:"1", entities:"38,amp,60,lt,62,gt", accessibility_focus:"1", tabfocus_elements:"major-publishing-actions", media_strict:"", paste_remove_styles:"1", paste_remove_spans:"1", paste_strip_class_attributes:"all", wpeditimage_disable_captions:"", plugins:"safari,inlinepopups,spellchecker,paste,wordpress,media,fullscreen,wpeditimage,wpgallery,tabfocus"},
+	load_ext : function(url,lang){var sl=tinymce.ScriptLoader;sl.markDone(url+'/langs/'+lang+'.js');sl.markDone(url+'/langs/'+lang+'_dlg.js');}
+};
+/* ]]> */
+</script>
+
+<script type="text/javascript" src="<?php echo get_bloginfo('siteurl'); ?>/wp-includes/js/tinymce/wp-tinymce.js"></script>
+<script type="text/javascript">
+<?php 
+
+global $language;
+$language = "en";
+include (ABSPATH . WPINC . "/js/tinymce/langs/wp-langs.php"); 
+
+echo $lang;
+
+?>
+</script>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+tinyMCEPreInit.go();
+tinyMCE.init(tinyMCEPreInit.mceInit);
+/* ]]> */
+</script>
+
+<script type="text/javascript">if(typeof wpOnload=='function')wpOnload();</script>
+
